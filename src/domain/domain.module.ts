@@ -26,6 +26,10 @@ import { HandleAccount } from "./account/usecase/handle.account.usecase.domain";
         {
             provide: 'IClientUsecase',
             useExisting: ClientDomain
+        },
+        {
+            provide: 'IHandleAccount',
+            useExisting: HandleAccount
         }
     ],
     imports: [InfraModule]

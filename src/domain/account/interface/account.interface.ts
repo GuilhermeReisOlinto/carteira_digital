@@ -1,3 +1,3 @@
 export interface IHandleAccount {
-    verifyBalance(cpf_document: number)
+    verifyBalance(account_id: number): any
 }

@@ -12,7 +12,10 @@ export class HandleAccount implements IHandleAccount {
     async verifyBalance(account_id: number) {
 
         const data_account = await this.repository.findOne(account_id);
+        const { account_balance } = data_account;
 
-        
+        return {
+            account_balance
+        }
     }
 }

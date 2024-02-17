@@ -8,8 +8,8 @@ export class AccountPresentation {
         private readonly accountDomain: IHandleAccount
     ) {}
 
-    @Get('balance')
-    balance(@Param() account_id: number) {
+    @Get('balance/:account_id')
+    balance(@Param('account_id') account_id: number) {
        return this.accountDomain.verifyBalance(account_id); 
     }
 }
