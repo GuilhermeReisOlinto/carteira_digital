@@ -2,6 +2,7 @@ import { Module } from "@nestjs/common";
 import { ClientDomain } from "./client/usecase/headle.usecase.domain";
 import { InfraModule } from "src/infra/infra.module";
 import { AccountDomain } from "./client/usecase/account.usecase.domain";
+import { HandleAccount } from "./account/usecase/handle.account.usecase.domain";
 
 @Module({
     providers: [
@@ -14,6 +15,11 @@ import { AccountDomain } from "./client/usecase/account.usecase.domain";
         {
             provide: 'IAccount',
             useExisting: AccountDomain
+        },
+        HandleAccount,
+        {
+            provide: 'IHandleAccount',
+            useExisting: HandleAccount
         }
     ],
     exports: [
