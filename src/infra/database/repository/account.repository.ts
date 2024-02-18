@@ -17,4 +17,8 @@ export class AccountRepository implements IAccountRepository {
     findOne(account_id: number) {
         return this.accountRepository.findOne({ where: { account_id: account_id } })
     }
+
+    findOneByAccount(account_number: number) {
+        return this.accountRepository.findOne({ where: { account_number: account_number } })
+    }
 }

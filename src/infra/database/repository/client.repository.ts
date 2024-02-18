@@ -21,4 +21,8 @@ export class ClientRepository implements IClientRepository {
     findNick(email: string): any {
         return this.clientRepository.findOne({ where: { email: email } });
     }
+
+    findOneByAccount(account_id: number) {
+        return this.clientRepository.findOne({ where: { account_id: account_id } });
+    }
 }
