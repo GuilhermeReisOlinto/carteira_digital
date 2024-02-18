@@ -18,7 +18,7 @@ export class AccountDomain implements IAccount {
 
         const verifying_digit_string = verifying_digit_number.toString();
         
-        const account_opening_balance: string = "0,00";
+        const account_opening_balance: string = "0.00";
 
         const payload = {
             account_number: account_number_string,

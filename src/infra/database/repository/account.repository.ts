@@ -23,12 +23,16 @@ export class AccountRepository implements IAccountRepository {
         return this.accountRepository.findOne({ where: { account_number: account_number } })
     }
 
-    updateBalanceAccount(account_number: number, account_balance: string) {
-        const updatedAccount = this.accountRepository.update(
-            { account_balance: Sequelize.literal(`balance - ${account_balance}`) },
-            { where: { account_number: account_number } }
-          );
+    async updateBalanceAccount(account_number: number, account_balance: string) {
         
+        console.log("aqui na conta :",typeof account_balance)
+
+        const updatedAccount = await this.accountRepository.update(
+            { account_balance: Sequelize.literal(`account_balance - ${account_balance}`) },
+            { where: { account_number: account_number } }
+        );
+        console.log(updatedAccount)
+
         return updatedAccount;
     }
 }

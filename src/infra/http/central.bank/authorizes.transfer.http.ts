@@ -14,9 +14,8 @@ export class AuthorizeTransfer implements IAuthorizeTransfer {
             const base_url = process.env.AUTHORIZATED_URL;
 
             const result = await lastValueFrom(this.httpService.get(base_url));
-            console.log(result)
 
-            return result;
+            return result.data;
         } catch (error) {
             throw new HttpException(error.response.status, error.response.data);
         }

@@ -50,29 +50,28 @@ export class HandleAccount implements IHandleAccount {
     }
 
     async confirmTransfer(payload: any) {
-        const account_id = 1
+        const { account_id } =  payload;
 
         const data_account = await this.accountRepository.findOne(account_id);
         const { account_balance } = data_account;
 
-        if (payload.account_balance > account_balance) {
+        if (payload.transfer_value > account_balance) {
             throw new ConflictException('Saldo insuficiente.');
         }
 
         const result = await this.authorizationHttp.authorizeTransfer(payload);
-        if (result.data.message !== 'Autorizado') {
+        if (result.message !== 'Autorizado') {
             throw new ConflictException('Não autorizado.');
         }
 
-        return await this.confirmTransfer(payload);
-
+        return await this.confirmingTransfer(payload);
     }
 
     async confirmingTransfer(payload) {
-        const { account_number, account_balance } = payload;
-
-        const resultUpdate = await this.accountRepository.updateBalanceAccount(account_number, account_balance);
-        console.log(resultUpdate)
+        const { account_number, transfer_value } = payload;
+        console.log(payload)
+        const resultUpdate = await this.accountRepository.updateBalanceAccount(account_number, transfer_value);
+ 
         return resultUpdate
     }
 }
