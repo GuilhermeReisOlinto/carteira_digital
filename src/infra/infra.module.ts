@@ -5,10 +5,13 @@ import { ClientEntity } from "./database/entities/client.entity";
 import { ClientRepository } from "./database/repository/client.repository";
 import { AccountEntity } from "./database/entities/account.entity";
 import { AccountRepository } from "./database/repository/account.repository";
+import { AuthorizeTransfer } from "./http/central.bank/authorizes.transfer.http";
+import { HttpModule } from "@nestjs/axios";
 
 @Module({
     imports: [
         SequelizeModule.forFeature([ClientEntity, AccountEntity]),
+        HttpModule
     ],
     providers: [
         ClientRepository,
@@ -20,6 +23,11 @@ import { AccountRepository } from "./database/repository/account.repository";
         {
             provide: 'IAccountRepository',
             useExisting: AccountRepository
+        },
+        AuthorizeTransfer,
+        {
+            provide: 'IAuthorizeTransfer',
+            useExisting: AuthorizeTransfer
         }
     ],
     exports: [
@@ -30,6 +38,10 @@ import { AccountRepository } from "./database/repository/account.repository";
         {
             provide: 'IAccountRepository',
             useExisting: AccountRepository
+        },
+        {
+            provide: 'IAuthorizeTransfer',
+            useExisting: AuthorizeTransfer
         }
     ]
 

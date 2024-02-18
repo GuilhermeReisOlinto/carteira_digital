@@ -59,6 +59,7 @@ $ npm run test:cov
 
 # sqlite
 $ npm i @nestjs/typeorm typeorm sqlite3
+$ npm i --save @nestjs/axios axios
 ```
 
 ## Support

@@ -2,19 +2,22 @@ import { ConflictException, Inject, Injectable, NotFoundException } from "@nestj
 import { IHandleAccount } from "../interface/account.interface";
 import { IAccountRepository } from "src/infra/database/interface/account.interface";
 import { IClientRepository } from "src/infra/database/interface/client.interface";
+import { IAuthorizeTransfer } from "src/infra/interface/central.bank.interface";
 
 @Injectable()
 export class HandleAccount implements IHandleAccount {
     constructor(
         @Inject('IAccountRepository')
-        private readonly repository: IAccountRepository,
+        private readonly accountRepository: IAccountRepository,
         @Inject('IClientRepository')
         private readonly clientRepository: IClientRepository,
+        @Inject('IAuthorizeTransfer')
+        private readonly  authorizationHttp: IAuthorizeTransfer
     ) {}
 
     async verifyBalance(account_id: number) {
 
-        const data_account = await this.repository.findOne(account_id);
+        const data_account = await this.accountRepository.findOne(account_id);
         const { account_balance } = data_account;
 
         return {
@@ -25,7 +28,7 @@ export class HandleAccount implements IHandleAccount {
     async trasnferMoney(payload: any) {
         const { account_number } = payload;
 
-        const data_account = await this.repository.findOneByAccount(account_number);
+        const data_account = await this.accountRepository.findOneByAccount(account_number);
         if(!data_account){
             throw new NotFoundException('Account not exist.');
         }
@@ -46,13 +49,30 @@ export class HandleAccount implements IHandleAccount {
         }
     }
 
-    async confirmTrasnfer(payload: any) {
+    async confirmTransfer(payload: any) {
         const account_id = 1
 
-        const data_account = await this.repository.findOne(account_id);
+        const data_account = await this.accountRepository.findOne(account_id);
         const { account_balance } = data_account;
 
+        if (payload.account_balance > account_balance) {
+            throw new ConflictException('Saldo insuficiente.');
+        }
 
+        const result = await this.authorizationHttp.authorizeTransfer(payload);
+        if (result.data.message !== 'Autorizado') {
+            throw new ConflictException('Não autorizado.');
+        }
 
+        return await this.confirmTransfer(payload);
+
+    }
+
+    async confirmingTransfer(payload) {
+        const { account_number, account_balance } = payload;
+
+        const resultUpdate = await this.accountRepository.updateBalanceAccount(account_number, account_balance);
+        console.log(resultUpdate)
+        return resultUpdate
     }
 }

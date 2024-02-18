@@ -20,6 +20,6 @@ export class AccountPresentation {
 
     @Post('confirm/transfer')
     confirmTransfer(@Body() payload){
-        return this.accountDomain.confirmTrasnfer(payload);
+        return this.accountDomain.confirmTransfer(payload);
     }
 }
