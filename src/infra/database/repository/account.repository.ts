@@ -24,8 +24,6 @@ export class AccountRepository implements IAccountRepository {
     }
 
     async updateBalanceAccount(account_number: number, account_balance: string) {
-        
-        console.log("aqui na conta :",typeof account_balance)
 
         const updatedAccount = await this.accountRepository.update(
             { account_balance: Sequelize.literal(`account_balance - ${account_balance}`) },
