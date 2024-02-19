@@ -54,8 +54,8 @@ export class HandleAccount implements IHandleAccount {
 
         const data_account = await this.accountRepository.findOne(account_id);
         const { account_balance } = data_account;
-
-        if (payload.transfer_value > account_balance) {
+        
+        if (payload.transfer_value < account_balance) {
             throw new ConflictException('Saldo insuficiente.');
         }
 
@@ -64,14 +64,24 @@ export class HandleAccount implements IHandleAccount {
             throw new ConflictException('Não autorizado.');
         }
 
-        return await this.confirmingTransfer(payload);
+        await this.confirmingTransfer(payload);
+
+        await this.removedMoneyAccount(data_account, payload.transfer_value);
+
+        return 'Success!';
     }
 
     async confirmingTransfer(payload) {
         const { account_number, transfer_value } = payload;
-        console.log(payload)
+
         const resultUpdate = await this.accountRepository.updateBalanceAccount(account_number, transfer_value);
- 
+        
         return resultUpdate
+    }
+
+    async removedMoneyAccount(payload, transfer_value) {
+        const { account_balance, account_number, } = payload;
+
+        return await this.accountRepository.updateBalanceAccountSub(account_number, transfer_value);
     }
 }

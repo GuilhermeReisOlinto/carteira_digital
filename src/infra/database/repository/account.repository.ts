@@ -32,4 +32,14 @@ export class AccountRepository implements IAccountRepository {
 
         return updatedAccount;
     }
+
+    async updateBalanceAccountSub(account_number: number, account_balance: string) {
+
+        const updatedAccount = await this.accountRepository.update(
+            { account_balance: Sequelize.literal(`saldo_conta - ${account_balance}`) },
+            { where: { account_number: account_number } }
+          );
+
+        return updatedAccount;
+    }
 }
