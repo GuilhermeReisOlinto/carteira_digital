@@ -29,7 +29,6 @@ export class AccountPresentation {
     confirmTransfer(@Body() payload){
         return this.accountDomain.confirmTransfer(payload);
     }
-
     
     @UseGuards(AuthGuard)
     @Post('insert/balance')
