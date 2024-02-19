@@ -12,7 +12,7 @@ export class AuthService {
   
     async signIn(payload): Promise<any> {
       const { email, password } = payload;
-      const user = await this.repository.findNick(email);
+      const user = await this.repository.findNickName(email);
       if (!user) {
         throw new UnauthorizedException('User or password divergente.');
       }

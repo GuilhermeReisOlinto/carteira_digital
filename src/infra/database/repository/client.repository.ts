@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { IClientRepository } from "../interface/client.interface";
+import { IClientRepository, TPayload } from "../interface/client.interface";
 import { InjectModel } from '@nestjs/sequelize';
 import { ClientEntity } from "../entities/client.entity";
 
@@ -10,15 +10,15 @@ export class ClientRepository implements IClientRepository {
         private readonly clientRepository: typeof ClientEntity
     ) {}
 
-    create(payload): any {
+    create(payload: TPayload): Promise<TPayload> {
         return this.clientRepository.create(payload)
     }
 
-    findOne(cpf_document: string): any {
+    findOneDocumentCpf(cpf_document: string): any {
         return this.clientRepository.findOne({ where: { cpf_document: cpf_document } });
     }
 
-    findNick(email: string): any {
+    findNickName(email: string): any {
         return this.clientRepository.findOne({ where: { email: email } });
     }
 

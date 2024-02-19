@@ -15,7 +15,7 @@ export class AccountRepository implements IAccountRepository {
         return this.accountRepository.create(payload)
     }
 
-    async findOne(account_id: number) {
+    async findOneById(account_id: number) {
         return await this.accountRepository.findOne({ where: { account_id: account_id } })
     }
 

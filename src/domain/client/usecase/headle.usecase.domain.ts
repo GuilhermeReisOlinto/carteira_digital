@@ -15,12 +15,12 @@ export class ClientDomain implements IClientUsecase {
     async headleClient(payload) {
         const {cpf_document, email} = payload;
         
-        const existClient = await this.repository.findOne(cpf_document);
+        const existClient = await this.repository.findOneDocumentCpf(cpf_document);
         if (existClient) {
             throw new ConflictException('Client already exists.');
         }
         
-        const existNickClient = await this.repository.findNick(email);
+        const existNickClient = await this.repository.findNickName(email);
         if (existNickClient) {
             throw new ConflictException('email already used.');
         }

@@ -11,7 +11,7 @@ export class BalanceAccount implements IBalanceAccount {
     async updateBalance(payload) {
         const { account_id, account_balance } = payload;
 
-        const { account_number } = await this.accountRepository.findOne(account_id);
+        const { account_number } = await this.accountRepository.findOneById(account_id);
     
         await this.accountRepository.updateBalanceAccount(account_number, account_balance);
         

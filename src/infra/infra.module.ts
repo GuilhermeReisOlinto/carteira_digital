@@ -5,8 +5,9 @@ import { ClientEntity } from "./database/entities/client.entity";
 import { ClientRepository } from "./database/repository/client.repository";
 import { AccountEntity } from "./database/entities/account.entity";
 import { AccountRepository } from "./database/repository/account.repository";
-import { AuthorizeTransfer } from "./http/central.bank/authorizes.transfer.http";
+import { PaymentConfirmation } from "./http/payment.confirmation/payment.confirmation.http";
 import { HttpModule } from "@nestjs/axios";
+import { SendSms } from "./http/notifications/send.sms.http";
 
 @Module({
     imports: [
@@ -24,11 +25,16 @@ import { HttpModule } from "@nestjs/axios";
             provide: 'IAccountRepository',
             useExisting: AccountRepository
         },
-        AuthorizeTransfer,
+        PaymentConfirmation,
         {
-            provide: 'IAuthorizeTransfer',
-            useExisting: AuthorizeTransfer
-        }
+            provide: 'IPaymentConfirmation',
+            useExisting: PaymentConfirmation
+        },
+        SendSms,
+        {
+            provide: 'INotifications',
+            useExisting: SendSms
+        },
     ],
     exports: [
         {
@@ -40,9 +46,13 @@ import { HttpModule } from "@nestjs/axios";
             useExisting: AccountRepository
         },
         {
-            provide: 'IAuthorizeTransfer',
-            useExisting: AuthorizeTransfer
-        }
+            provide: 'IPaymentConfirmation',
+            useExisting: PaymentConfirmation
+        },
+        {
+            provide: 'INotifications',
+            useExisting: SendSms
+        },
     ]
 
 })
