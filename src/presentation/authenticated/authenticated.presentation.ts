@@ -5,11 +5,11 @@ import { IAuthenticated } from "src/domain/authenticated/interface/authenticated
 export class AuthenticatedPresentation {
     constructor (
         @Inject('IAuthenticated')
-        private readonly authenticated: IAuthenticated
+        private readonly authenticatedDomain: IAuthenticated
     ) {}
 
     @Post('authenticated')
     auth(@Body() payload) {
-        return this.authenticated.signIn(payload)
+        return this.authenticatedDomain.signIn(payload)
     }
 }

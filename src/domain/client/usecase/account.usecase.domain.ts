@@ -1,5 +1,5 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { IAccount } from "../interface/account.interface";
+import { IAccount, TReturnAccount } from "../interface/account.interface";
 import { IAccountRepository } from "src/infra/database/interface/account.interface";
 
 @Injectable()
@@ -9,7 +9,7 @@ export class AccountDomain implements IAccount {
         private readonly repository: IAccountRepository,
     ) {}
 
-    async generate() {
+    async generateAccount(): Promise<TReturnAccount> {
         const account_number_number = Math.floor(Math.random() * (999999 -  111111 + 1)) + 11111;
         
         const account_number_string = account_number_number.toString();

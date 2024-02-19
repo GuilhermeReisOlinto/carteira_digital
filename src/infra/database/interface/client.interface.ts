@@ -10,8 +10,8 @@ export type TPayload = {
 }
 
 export interface IClientRepository {
-    create(payload: TPayload): any
-    findOneDocumentCpf(cpf_document: string): any
-    findNickName(email: string): any
-    findOneByAccount(account_id: number): any
+    create(payload: TPayload): Promise<TPayload>
+    findOneDocumentCpf(cpf_document: string): Promise<TPayload>
+    findNickName(email: string): Promise<TPayload>
+    findOneByAccount(account_id: number): Promise<TPayload>
 }

@@ -1,9 +1,9 @@
 import { Module } from "@nestjs/common";
-import { ClientDomain } from "./client/usecase/headle.usecase.domain";
+import { ClientDomain } from "./client/usecase/client.usecase.domain";
 import { InfraModule } from "src/infra/infra.module";
 import { AccountDomain } from "./client/usecase/account.usecase.domain";
 import { HandleAccount } from "./account/usecase/handle.account.usecase.domain";
-import { AuthService } from "./authenticated/usecase/authenticated.usecase";
+import { AuthDomain } from "./authenticated/usecase/authenticated.usecase";
 import { JwtModule } from "@nestjs/jwt";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { BalanceAccount } from "./account/usecase/balance.account.usecase.domain";
@@ -37,10 +37,10 @@ import { BalanceAccount } from "./account/usecase/balance.account.usecase.domain
             provide: 'IHandleAccount',
             useExisting: HandleAccount
         },
-        AuthService,
+        AuthDomain,
         {
             provide: 'IAuthenticated',
-            useExisting: AuthService
+            useExisting: AuthDomain
         },
         BalanceAccount,
         {
@@ -59,7 +59,7 @@ import { BalanceAccount } from "./account/usecase/balance.account.usecase.domain
         },
         {
             provide: 'IAuthenticated',
-            useExisting: AuthService
+            useExisting: AuthDomain
         },
         {
             provide: 'IBalanceAccount',

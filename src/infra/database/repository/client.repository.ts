@@ -14,15 +14,15 @@ export class ClientRepository implements IClientRepository {
         return this.clientRepository.create(payload)
     }
 
-    findOneDocumentCpf(cpf_document: string): any {
+    findOneDocumentCpf(cpf_document: string): Promise<TPayload> {
         return this.clientRepository.findOne({ where: { cpf_document: cpf_document } });
     }
 
-    findNickName(email: string): any {
+    findNickName(email: string): Promise<TPayload> {
         return this.clientRepository.findOne({ where: { email: email } });
     }
 
-    findOneByAccount(account_id: number) {
+    findOneByAccount(account_id: number): Promise<TPayload> {
         return this.clientRepository.findOne({ where: { account_id: account_id } });
     }
 }
