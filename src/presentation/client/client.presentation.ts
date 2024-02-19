@@ -18,7 +18,6 @@ export class ClientPresentation {
         private readonly clientDomain: IClient
     ) {}
 
-    @UseGuards(AuthGuard)
     @Post('create')
     createClient(@Body() payload: TPayload) {
         return this.clientDomain.headleClient(payload)

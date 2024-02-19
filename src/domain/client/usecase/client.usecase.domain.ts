@@ -3,7 +3,6 @@ import { IClient, TPayload, TReturnPayload } from "../interface/client.interface
 import { IClientRepository } from "src/infra/database/interface/client.interface";
 import { IAccount } from "src/domain/account/interface/account.interface";
 
-
 @Injectable()
 export class ClientDomain implements IClient {
     constructor (

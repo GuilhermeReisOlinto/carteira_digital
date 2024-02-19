@@ -48,13 +48,13 @@ export class HandleAccount implements IHandleAccount {
         const data_account = await this.accountRepository.findOneById(account_id);
         const { account_balance } = data_account;
         
-        if (payload.transfer_value < account_balance) {
-            throw new ConflictException('Saldo insuficiente.');
+        if (payload.transfer_value > account_balance || payload.transfer_value < "0") {
+            throw new ConflictException('Insufficient funds.');
         }
 
         const result = await this.authorizationHttp.authorizeTransfer(payload);
         if (result.message !== 'Autorizado') {
-            throw new ConflictException('Não autorizado.');
+            throw new ConflictException('Not authorized.');
         }
 
         await this.confirmingTransfer(payload);
