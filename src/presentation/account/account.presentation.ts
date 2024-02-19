@@ -1,15 +1,24 @@
 import { Body, Controller, Get, Inject, Param, Post, UseGuards } from "@nestjs/common";
-import { IHandleAccount } from "src/domain/account/interface/account.interface";
+import { IAccount } from "src/domain/account/interface/account.interface";
 import { AuthGuard } from "../middleware/auth.guards.middleware";
 import { IBalanceAccount } from "src/domain/account/interface/balance.account.interface";
+import { IHandleAccount } from "src/domain/account/interface/handler.account.interface";
+
+type TPayload = {
+    account_number: string;
+    verifying_digit: string;
+    transfer_value?: string;
+}
 
 @Controller('api/v1')
 export class AccountPresentation {
     constructor(
         @Inject('IHandleAccount')
-        private readonly accountDomain: IHandleAccount,
+        private readonly handlerAccountDomain: IHandleAccount,
         @Inject('IBalanceAccount')
-        private readonly balanceAccount: IBalanceAccount
+        private readonly balanceAccount: IBalanceAccount,
+        @Inject('IAccount')
+        private readonly accountDomain: IAccount,
     ) {}
 
     @UseGuards(AuthGuard)
@@ -20,14 +29,14 @@ export class AccountPresentation {
 
     @UseGuards(AuthGuard)
     @Post('transfer')
-    transfer(@Body() payload) {
-        return this.accountDomain.trasnferMoney(payload);
+    transfer(@Body() payload: TPayload) {
+        return this.handlerAccountDomain.transferMoney(payload);
     }
 
     @UseGuards(AuthGuard)
     @Post('confirm/transfer')
-    confirmTransfer(@Body() payload){
-        return this.accountDomain.confirmTransfer(payload);
+    confirmTransfer(@Body() payload: TPayload){
+        return this.handlerAccountDomain.confirmTransfer(payload);
     }
     
     @UseGuards(AuthGuard)

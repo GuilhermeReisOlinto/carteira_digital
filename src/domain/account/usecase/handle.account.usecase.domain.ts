@@ -1,9 +1,9 @@
 import { ConflictException, Inject, Injectable, NotFoundException } from "@nestjs/common";
-import { IHandleAccount } from "../interface/account.interface";
 import { IAccountRepository } from "src/infra/database/interface/account.interface";
 import { IClientRepository } from "src/infra/database/interface/client.interface";
 import { IPaymentConfirmation } from "src/infra/http/interface/payment.interface";
 import { INotifications } from "src/infra/http/interface/notification.interface";
+import { IHandleAccount, TPayloadTrasferMoney, TReturnTrasferMoney } from "../interface/handler.account.interface";
 
 @Injectable()
 export class HandleAccount implements IHandleAccount {
@@ -18,17 +18,7 @@ export class HandleAccount implements IHandleAccount {
         private readonly  notificationsHttp: INotifications
     ) {}
 
-    async verifyBalance(account_id: number) {
-
-        const data_account = await this.accountRepository.findOneById(account_id);
-        const { account_balance } = data_account;
-
-        return {
-            account_balance
-        }
-    }
-
-    async trasnferMoney(payload: any) {
+    async transferMoney(payload: TPayloadTrasferMoney): Promise<TReturnTrasferMoney> {
         const { account_number } = payload;
 
         const data_account = await this.accountRepository.findOneByAccount(account_number);
@@ -52,7 +42,7 @@ export class HandleAccount implements IHandleAccount {
         }
     }
 
-    async confirmTransfer(payload: any) {
+    async confirmTransfer(payload: TPayloadTrasferMoney): Promise<string>{
         const { account_id } =  payload;
 
         const data_account = await this.accountRepository.findOneById(account_id);
@@ -74,14 +64,12 @@ export class HandleAccount implements IHandleAccount {
         return 'Success!';
     }
 
-    async confirmingTransfer(payload) {
+    async confirmingTransfer(payload: TPayloadTrasferMoney) {
         const { account_number, transfer_value } = payload;
 
-        const resultUpdate = await this.accountRepository.updateBalanceAccount(account_number, transfer_value);
+        await this.accountRepository.updateBalanceAccount(account_number, transfer_value);
         
         await this.notificationsHttp.sendSms(payload);
-
-        return resultUpdate
     }
 
     async removedMoneyAccount(payload, transfer_value) {

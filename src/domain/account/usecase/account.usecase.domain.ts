@@ -1,12 +1,12 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { IAccount, TReturnAccount } from "../interface/account.interface";
 import { IAccountRepository } from "src/infra/database/interface/account.interface";
+import { IAccount, IReturnBalance, TReturnAccount } from "../interface/account.interface";
 
 @Injectable()
 export class AccountDomain implements IAccount {
     constructor (
         @Inject('IAccountRepository')
-        private readonly repository: IAccountRepository,
+        private readonly accountRepository: IAccountRepository,
     ) {}
 
     async generateAccount(): Promise<TReturnAccount> {
@@ -26,9 +26,19 @@ export class AccountDomain implements IAccount {
             account_balance: account_opening_balance
         }
 
-        const account = await this.repository.create(payload);
+        const account = await this.accountRepository.create(payload);
         const { account_id, account_number, verifying_digit } = account;
 
         return { account_id, account_number, verifying_digit };
+    }
+
+    async verifyBalance(account_id: number): Promise<IReturnBalance> {
+
+        const data_account = await this.accountRepository.findOneById(account_id);
+        const { account_balance } = data_account;
+
+        return {
+            account_balance
+        }
     }
 }

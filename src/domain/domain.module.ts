@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { ClientDomain } from "./client/usecase/client.usecase.domain";
 import { InfraModule } from "src/infra/infra.module";
-import { AccountDomain } from "./client/usecase/account.usecase.domain";
+import { AccountDomain } from "./account/usecase/account.usecase.domain";
 import { HandleAccount } from "./account/usecase/handle.account.usecase.domain";
 import { AuthDomain } from "./authenticated/usecase/authenticated.usecase";
 import { JwtModule } from "@nestjs/jwt";
@@ -64,7 +64,11 @@ import { BalanceAccount } from "./account/usecase/balance.account.usecase.domain
         {
             provide: 'IBalanceAccount',
             useExisting: BalanceAccount
-        }
+        },
+        {
+            provide: 'IAccount',
+            useExisting: AccountDomain
+        },
     ],
 })
 export class DomainModule {}
