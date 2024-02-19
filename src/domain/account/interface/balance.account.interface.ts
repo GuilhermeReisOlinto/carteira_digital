@@ -1,3 +1,3 @@
 export interface IBalanceAccount {
-    updateBalance(): any
+    updateBalance(payload): any
 }

@@ -15,8 +15,8 @@ export class AccountRepository implements IAccountRepository {
         return this.accountRepository.create(payload)
     }
 
-    findOne(account_id: number) {
-        return this.accountRepository.findOne({ where: { account_id: account_id } })
+    async findOne(account_id: number) {
+        return await this.accountRepository.findOne({ where: { account_id: account_id } })
     }
 
     findOneByAccount(account_number: number) {
@@ -26,10 +26,9 @@ export class AccountRepository implements IAccountRepository {
     async updateBalanceAccount(account_number: number, account_balance: string) {
 
         const updatedAccount = await this.accountRepository.update(
-            { account_balance: Sequelize.literal(`account_balance - ${account_balance}`) },
+            { account_balance: Sequelize.literal(`saldo_conta + ${account_balance}`) },
             { where: { account_number: account_number } }
-        );
-        console.log(updatedAccount)
+          );
 
         return updatedAccount;
     }

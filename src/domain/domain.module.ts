@@ -6,6 +6,7 @@ import { HandleAccount } from "./account/usecase/handle.account.usecase.domain";
 import { AuthService } from "./authenticated/usecase/authenticated.usecase";
 import { JwtModule } from "@nestjs/jwt";
 import { ConfigModule, ConfigService } from "@nestjs/config";
+import { BalanceAccount } from "./account/usecase/balance.account.usecase.domain";
 
 @Module({
     imports: [
@@ -40,6 +41,11 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
         {
             provide: 'IAuthenticated',
             useExisting: AuthService
+        },
+        BalanceAccount,
+        {
+            provide: 'IBalanceAccount',
+            useExisting: BalanceAccount
         }
     ],
     exports: [
@@ -54,6 +60,10 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
         {
             provide: 'IAuthenticated',
             useExisting: AuthService
+        },
+        {
+            provide: 'IBalanceAccount',
+            useExisting: BalanceAccount
         }
     ],
 })
