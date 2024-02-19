@@ -16,11 +16,13 @@ export class AccountPresentation {
        return this.accountDomain.verifyBalance(account_id); 
     }
 
+    @UseGuards(AuthGuard)
     @Post('transfer')
     transfer(@Body() payload) {
         return this.accountDomain.trasnferMoney(payload);
     }
 
+    @UseGuards(AuthGuard)
     @Post('confirm/transfer')
     confirmTransfer(@Body() payload){
         return this.accountDomain.confirmTransfer(payload);
