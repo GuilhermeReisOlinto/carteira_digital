@@ -1,13 +1,15 @@
-import { Controller, Post } from "@nestjs/common";
+import { Body, Controller, Inject, Post } from "@nestjs/common";
+import { IAuthenticated } from "src/domain/authenticated/interface/authenticated.interface";
 
 @Controller('api/v1')
 export class AuthenticatedPresentation {
     constructor (
-        
+        @Inject('IAuthenticated')
+        private readonly authenticated: IAuthenticated
     ) {}
 
     @Post('authenticated')
-    auth() {
-        return this
+    auth(@Body() payload) {
+        return this.authenticated.signIn(payload)
     }    
 }
