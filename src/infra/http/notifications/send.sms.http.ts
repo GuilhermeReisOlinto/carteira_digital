@@ -1,7 +1,7 @@
 import { HttpService } from "@nestjs/axios";
 import { HttpException, Injectable } from "@nestjs/common";
 import { lastValueFrom } from "rxjs";
-import { INotifications } from "../interface/notification.interface";
+import { INotifications, TPayment } from "../interface/notification.interface";
 
 @Injectable()
 export class SendSms implements INotifications {
@@ -9,7 +9,7 @@ export class SendSms implements INotifications {
         private readonly httpService: HttpService
     ) {}
 
-    async sendSms(payload: any): Promise<boolean> {
+    async sendSms(payload: TPayment): Promise<boolean> {
         try {
             const base_url = process.env.SEND_SMS_URL;
 

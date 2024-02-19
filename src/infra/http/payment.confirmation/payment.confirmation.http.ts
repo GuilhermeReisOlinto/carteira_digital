@@ -1,7 +1,7 @@
 import { HttpService } from "@nestjs/axios";
 import { HttpException, Injectable } from "@nestjs/common";
 import { lastValueFrom } from "rxjs";
-import { IPaymentConfirmation, TReturnPayment } from "src/infra/http/interface/payment.interface";
+import { IPaymentConfirmation, TPayment, TReturnPayment } from "src/infra/http/interface/payment.interface";
 
 @Injectable()
 export class PaymentConfirmation implements IPaymentConfirmation {
@@ -9,7 +9,7 @@ export class PaymentConfirmation implements IPaymentConfirmation {
         private readonly httpService: HttpService
     ) {}
 
-    async authorizeTransfer(payload: any): Promise<TReturnPayment> {
+    async authorizeTransfer(payload: TPayment): Promise<TReturnPayment> {
         try {
             const base_url = process.env.AUTHORIZATED_URL;
 
