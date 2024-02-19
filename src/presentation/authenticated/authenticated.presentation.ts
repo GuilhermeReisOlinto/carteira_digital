@@ -11,5 +11,5 @@ export class AuthenticatedPresentation {
     @Post('authenticated')
     auth(@Body() payload) {
         return this.authenticated.signIn(payload)
-    }    
+    }
 }

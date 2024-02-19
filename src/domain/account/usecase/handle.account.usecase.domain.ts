@@ -2,7 +2,7 @@ import { ConflictException, Inject, Injectable, NotFoundException } from "@nestj
 import { IHandleAccount } from "../interface/account.interface";
 import { IAccountRepository } from "src/infra/database/interface/account.interface";
 import { IClientRepository } from "src/infra/database/interface/client.interface";
-import { IAuthorizeTransfer } from "src/infra/interface/central.bank.interface";
+import { IAuthorizeTransfer } from "src/infra/http/interface/central.bank.interface";
 
 @Injectable()
 export class HandleAccount implements IHandleAccount {
