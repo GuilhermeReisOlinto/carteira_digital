@@ -6,6 +6,14 @@ import { AuthenticatedPresentation } from "./authenticated/authenticated.present
 
 @Module({
     imports: [DomainModule],
-    controllers: [ClientPresentation, AccountPresentation, AuthenticatedPresentation]
+    controllers: [ClientPresentation, AccountPresentation, AuthenticatedPresentation],
+    providers: [
+        AccountPresentation,
+        { provide: 'IAccountController', useExisting: AccountPresentation },
+        AuthenticatedPresentation,
+        { provide: 'IAuthenticatedController', useExisting: AuthenticatedPresentation },
+        ClientPresentation,
+        { provide: 'IClientController', useExisting: ClientPresentation },
+    ]
 })
 export class PresentationModule {}

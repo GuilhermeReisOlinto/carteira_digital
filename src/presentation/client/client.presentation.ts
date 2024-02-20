@@ -1,6 +1,9 @@
 import {  Body, Controller, Inject, Post, UseGuards } from "@nestjs/common";
 import { IClient } from "src/domain/client/interface/client.interface";
-import { AuthGuard } from "../middleware/auth.guards.middleware";
+
+export interface IClientController {
+    createClient(payload: TPayload): any
+}
 
 export type TPayload = {
     name: string;

@@ -4,6 +4,18 @@ import { AuthGuard } from "../middleware/auth.guards.middleware";
 import { IBalanceAccount } from "src/domain/account/interface/balance.account.interface";
 import { IHandleAccount } from "src/domain/account/interface/handler.account.interface";
 
+export interface IAccountController {
+    balance(account_id: number): any
+    transfer(payload: TPayload): any
+    confirmTransfer(payload: TPayload): any
+    insertBalance(payload: TPayloadInserBalance): any
+}
+
+type TPayloadInserBalance = {
+    account_id: number;
+    account_balance: string;
+}
+
 type TPayload = {
     account_number: string;
     verifying_digit: string;
@@ -11,7 +23,7 @@ type TPayload = {
 }
 
 @Controller('api/v1')
-export class AccountPresentation {
+export class AccountPresentation implements IAccountController {
     constructor(
         @Inject('IHandleAccount')
         private readonly handlerAccountDomain: IHandleAccount,
@@ -41,7 +53,7 @@ export class AccountPresentation {
     
     @UseGuards(AuthGuard)
     @Post('insert/balance')
-    insertBalance(@Body() payload){
+    insertBalance(@Body() payload: TPayloadInserBalance){
         return this.balanceAccount.updateBalance(payload);
     }
 }
