@@ -15,7 +15,7 @@ export type TPayload = {
 }
 
 @Controller('api/v1')
-export class ClientPresentation {
+export class ClientPresentation implements IClientController {
     constructor (
         @Inject('IClientUsecase')
         private readonly clientDomain: IClient
