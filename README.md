@@ -11,6 +11,7 @@ Esta API de carteira digital permite criar aplicações, autenticar, verificar s
 - `POST /api/v1/create`: Cria uma nova aplicação.
 - `POST /api/v1/authenticated`: Autentica a aplicação.
 - `GET /api/v1/balance`: Retorna o saldo da conta.
+- `GET /api/v1/find/account`: Retorna dados da conta.
 - `POST /api/v1/insert/balance`: Insere saldo na conta.
 - `POST /api/v1/transfer`: Transfere dinheiro entre contas.
 - `POST /api/v1/confirm/transfer`: Confirma a transferência de dinheiro.

@@ -41,4 +41,8 @@ export class AccountDomain implements IAccount {
             account_balance
         }
     }
+
+    async findAccount(account_id: number) {
+        return this.accountRepository.findOneById(account_id);
+    }
 }

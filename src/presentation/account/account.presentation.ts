@@ -9,6 +9,7 @@ export interface IAccountController {
     transfer(payload: TPayload): any
     confirmTransfer(payload: TPayload): any
     insertBalance(payload: TPayloadInserBalance): any
+    findAccount(account_id: number): any
 }
 
 type TPayloadInserBalance = {
@@ -55,5 +56,11 @@ export class AccountPresentation implements IAccountController {
     @Post('insert/balance')
     insertBalance(@Body() payload: TPayloadInserBalance){
         return this.balanceAccount.updateBalance(payload);
+    }
+
+    @UseGuards(AuthGuard)
+    @Get('find/account')
+    findAccount(@Param('account_id')account_id: number): any {
+        return this.accountDomain.findAccount(account_id);
     }
 }

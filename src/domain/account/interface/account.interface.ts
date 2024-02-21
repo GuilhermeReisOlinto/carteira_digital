@@ -9,4 +9,5 @@ export type IReturnBalance = {
 export interface IAccount {
     generateAccount(): Promise<TReturnAccount>
     verifyBalance(account_id: number): Promise<IReturnBalance>
+    findAccount(account_id: number): any
 }
